@@ -105,19 +105,19 @@ XACG takes ".cfg" as input file. In order to reproduce the experiment results, w
 ./AutoGen.sh config_files/1536_2048_128_200.cfg
 ```
 **4. Compilation flow of Single Kernel, AIE Array and System**<br>
-1. KernelGen leverages AIE compiler as its banckend ( **3-5 min** )<br>
+1. KernelGen leverages AIE compiler as its backend ( **3-5 min** )<br>
 ```sh
 cd KernelGen/${PRO_PATH}
 ./run_aie.sh
 ```
 
-2. IOGen leverages AIE compiler as its banckend ( **30-60 min** )<br>
+2. IOGen leverages AIE compiler as its backend ( **30-60 min** )<br>
 ```sh
 cd IOGen/${PRO_PATH}
 ./run_aie.sh
 ```
 
-3. SysGen leverages Vitis and Vivado as its banckend ( **3-7 hours** )<br>
+3. SysGen leverages Vitis and Vivado as its backend ( **3-7 hours** )<br>
 ```sh
 cd SysGen/${PRO_PATH}
 ./run_sys.sh
