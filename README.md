@@ -20,7 +20,7 @@ In the following configuration file, users can specify platform, data type, kern
 - **A, B, C** refers to the BATCH level parameter.
 - **X, Y, Z** refers to the BLOCK level parameter.
 - **LHS_BUFF, RHS_BUFF, OUT_BUFF** dicide the implmentation option for LHS, RHS and output buffers. 1 refers to URAM and 0 refers to BRAM. For example, LHS_BUFF=1 means LHS buffer is implemented by URAM.
-- **AutoGen** decides whether to automatically run compilation flow after generating the source code. 1 refers to combining XACG and compilation together.
+- **AutoCompile** decides whether to automatically run compilation flow after generating the source code. 1 refers to combining XACG and compilation together.
 ```sh
 Platform:VCK5000;         #(VCK5000 | VCK190)
 KernelGen:1;              #(0 | 1) scope 1
@@ -42,7 +42,7 @@ SysGen:0;                 #(0 | 1) scope 3
 	LHS_BUFF:1;       #On-chip buffer implementation option
 	RHS_BUFF:0;      
 	OUT_BUFF:0;     
-AutoGen:1;                #(0 | 1)
+AutoCompile:1;                #(0 | 1)
 ```
 
 ## Versal ACAP Experiment Environment<br>
@@ -65,7 +65,7 @@ In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how
 
 After getting the parameters, four simple steps are needed to reproduce the results.<br>
 **1. Automatically generate source code, compilation and run demo**<br>
-For convenience, by assigning 1 to the "AutoGen" Parameter in ".cfg" file, our framework can automatically launch the compilation processes after XACG generate the source code. User could also do step by step code generation and compilation following the instructions in the later subsection.
+For convenience, by assigning 1 to the "AutoCompile" Parameter in ".cfg" file, our framework can automatically launch the compilation processes after XACG generate the source code. User could also do step by step code generation and compilation following the instructions in the later subsection.
 ```sh
 git clone ${repo_path}
 cd SC22_XACG
@@ -96,7 +96,7 @@ SysGen:1;
 	LHS_BUFF:1;
 	RHS_BUFF:0;
 	OUT_BUFF:1;
-AutoGen:0;
+AutoCompile:0;
 ```
 
 **3. Code generation by XACG**<br>
