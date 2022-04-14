@@ -45,7 +45,7 @@ SysGen:0;                 #(0 | 1) scope 3
 AutoGen:1;                #(0 | 1)
 ```
 
-## Experiment Environment<br>
+## Versal ACAP Experiment Environment<br>
 Following environments are automatically set when launch each ACGs. The detail can be viewed in run.aie.sh or run.sys.sh after generating the corresponding code. <br>
 1. VCK5000: Vitis 2021.2, XRT 2021.2 <br>
 ```sh
@@ -142,7 +142,7 @@ make
 ```
 
 **2. A100 GPU On board execution** ( **1-2 min** )<br>
-In the following, instruction ${H1}, ${W1} and ${W2} refers to the total matrix size of our experiment design points. ${H1}=T_X x X x A x I, ${W1}=T_Y x Y x B x K, ${W2}=T_Z x Z x C x J. For the demo case with size 1536 × 2048 × 128 × 200, ${H1} should be set to 1536, ${W1} should be set to 2048, ${W2} should be set to 128 × 200 which means 25600.<br>
+In the following instruction, ${H1}, ${W1} and ${W2} refer to the total matrix size of our experiment design points. ${H1}=T_X x X x A x I, ${W1}=T_Y x Y x B x K, ${W2}=T_Z x Z x C x J. For the demo case with size 1536 × 2048 × 128 × 200, ${H1} should be set to 1536, ${W1} should be set to 2048, ${W2} should be set to 128 × 200 which means 25600.<br>
 ```sh
 ./matrixMulCUBLAS H1=${H1} W1=${W1} W2=${W2}
 make
