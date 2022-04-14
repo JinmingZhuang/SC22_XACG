@@ -152,7 +152,7 @@ In the following instruction, ${H1}, ${W1} and ${W2} refer to the total matrix s
 
 **3. Expected results on GPU for demo case** <br>
 The same as VCK5000 experiment, we run the MM for 4000 iterations and calculate the average of throughput of a single iteration. The expected throughput of demo case on A100 GPU should be 16-18 TFLOPs as shown in the following figure.<br>
-![image](https://user-images.githubusercontent.com/77606152/163456335-84ee259b-1f9a-4693-890b-e89143a9e787.png)<br>
+![image](https://user-images.githubusercontent.com/77606152/163463308-ab7df6ee-2dd3-4cb8-9c03-42ab1ae21394.png)<br>
 
 
 ## Experiment customization<br>
