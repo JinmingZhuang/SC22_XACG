@@ -65,7 +65,7 @@ In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how
 
 After getting the parameters, four simple steps are needed to reproduce the results.<br>
 **1. Automatically generate source code, compilation and run demo**<br>
-For convenience, by assigning 1 to the "AutoCompile" Parameter in ".cfg" file, our framework can automatically launch the compilation processes after XACG generate the source code. User could also do step by step code generation and compilation following the instructions in the later subsection.
+By assigning 1 to the "AutoCompile" Parameter in ".cfg" file, our framework can automatically launch the compilation processes after XACG generate the source code. User could also do step by step code generation and compilation following the instructions in the later subsection.
 ```sh
 git clone ${repo_path}
 cd SC22_XACG
