@@ -70,7 +70,7 @@ do
 		value_temp="${Key[1]}"; 
 		unset IFS
 		IFS=';' read -ra Value <<< "$value_temp";
-		Auto_Gen="${Value[0]}";
+		Auto_Compile="${Value[0]}";
  	fi
 done < "$input"
 
@@ -2229,7 +2229,7 @@ int main(int argc, char** argv) {
 
 fi
 
-if (( ${Auto_Gen} == 1 ))
+if (( ${Auto_Compile} == 1 ))
 then
 	if [ "$sim_name" == "int32_32_32_32" ] || [ "$sim_name" == "int32_16_32_32" ] || [ "$sim_name" == "int32_16_16_32" ] || [ "$sim_name" == "int32_8_16_32" ] || [ "$sim_name" == "int32_8_8_32" ] || [ "$sim_name" == "int32_8_8_16" ] || [ "$sim_name" == "int32_8_8_8" ] || [ "$sim_name" == "int16_48_48_48" ] || [ "$sim_name" == "int16_32_48_48" ] || [ "$sim_name" == "int16_32_32_48" ] || [ "$sim_name" == "int16_16_32_48" ] || [ "$sim_name" == "int16_16_16_48" ] || [ "$sim_name" == "int16_16_16_32" ] || [ "$sim_name" == "int16_16_16_8" ] 
 	then

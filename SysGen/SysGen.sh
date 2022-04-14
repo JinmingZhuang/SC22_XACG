@@ -70,7 +70,7 @@ do
         value_temp="${Key[1]}"; 
         unset IFS
         IFS=';' read -ra Value <<< "$value_temp";
-        Auto_Gen="${Value[0]}";
+        Auto_Compile="${Value[0]}";
     fi
 done < "$input"
 
@@ -100,6 +100,12 @@ do
     dir_name="$e";
     if [[ "$file_name" == "$dir_name" ]]
     then
+        if [[ ${Auto_Compile} == 1 ]]
+        then
+            cd ./${file_name};
+            ./run_sys.sh;
+            cd ../;
+        fi
         echo "
 Project $file_name exsists and can be used in the later steps
         ";
@@ -2295,7 +2301,7 @@ unsigned int getPacketId(ap_uint<32> header);
 ">> ./${file_name}/kernel/packet_sender.hpp;
 fi
 
-if [[ ${Auto_Gen} == 1 ]]
+if [[ ${Auto_Compile} == 1 ]]
 then
     cd ./${file_name};
     ./run_sys.sh;

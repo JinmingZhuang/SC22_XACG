@@ -57,7 +57,7 @@ do
 		value_temp="${Key[1]}"; 
 		unset IFS
 		IFS=';' read -ra Value <<< "$value_temp";
-		Auto_Gen="${Value[0]}";
+		Auto_Compile="${Value[0]}";
  	fi
 done < "$input"
 
@@ -75,6 +75,12 @@ do
 	file_name="$e";
 	if [[ "$file_name" == "$dir_name" ]]
 	then
+		if (( Auto_Compile == 1 ))
+		then
+			cd ./${dir_name};
+			./run_aie.sh;
+			cd ../;
+		fi
 		echo "
 Project $dir_name exsists and can be used in the later steps
 		";
@@ -686,7 +692,7 @@ prop=run.impl_1.STEPS.PLACE_DESIGN.ARGS.DIRECTIVE=ExtraNetDelay_high
 prop=run.impl_1.STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE=AggressiveExplore
 prop=run.impl_1.STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE=AggressiveExplore">> ./${dir_name}/conn.cfg;
 
-if (( Auto_Gen == 1 ))
+if (( Auto_Compile == 1 ))
 then
 	cd ./${dir_name};
 	./run_aie.sh;
