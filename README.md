@@ -145,7 +145,6 @@ make
 In the following instruction, ${H1}, ${W1} and ${W2} refer to the total matrix size of our experiment design points. ${H1}=T_X x X x A x I, ${W1}=T_Y x Y x B x K, ${W2}=T_Z x Z x C x J. For the demo case with size 1536 × 2048 × 128 × 200, ${H1} should be set to 1536, ${W1} should be set to 2048, ${W2} should be set to 128 × 200 which means 25600.<br>
 ```sh
 ./matrixMulCUBLAS H1=${H1} W1=${W1} W2=${W2}
-make
 ```
 
 **3. Expected results on GPU for demo case** <br>
