@@ -357,7 +357,7 @@ int main(int argc, char** argv) {
         double kernel_time_in_sec = 0;
         std::chrono::duration<double> kernel_time(0);
         auto kernel_start = std::chrono::high_resolution_clock::now();
-        const int iter=1;
+        const int iter=4000;
         for (int i=0;i<iter;i++){
         // start input kernels run handles
         dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,Z/${z},
@@ -1406,7 +1406,7 @@ int main(int argc, char** argv) {
         double kernel_time_in_sec = 0;
         std::chrono::duration<double> kernel_time(0);
         auto kernel_start = std::chrono::high_resolution_clock::now();
-        const int iter=1;
+        const int iter=4000;
         for (int i=0;i<iter;i++){
         // start input kernels run handles
         dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,Z/${z},
