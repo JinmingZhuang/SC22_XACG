@@ -134,7 +134,7 @@ It takes 4-8 hours to go through the whole processes and the expected throughput
 ![image](https://user-images.githubusercontent.com/77606152/163298008-bb67c852-861f-4c87-800e-5328b789a3d3.png)<br>
 
 ## NVIDIA A100 GPU FP32 MM<br>
-We set up the A100 GPU experiment for MM with FP32 data type by using cublasSgemm() API in cuBLAS from CUDA Toolkit 11.3. Only one compilation is needed for testing of different MM shapes.
+We set up the A100 GPU experiment for MM with FP32 data type by using cublasSgemm() API in cuBLAS from CUDA Toolkit 11.3. Only one compilation is needed for testing of different MM shapes.<br>
 **1. Compilation flow of MM on A100 GPU** ( **1-2 min** )<br>
 ```sh
 cd GPU
