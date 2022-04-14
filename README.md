@@ -57,7 +57,7 @@ source /opt/xilinx/xrt/setup.sh
 VIV_VER=2021.1 SDA_VER=2021.1 . with-sdaccel
 ```
 
-## Demo<br>
+## VCK5000 Int32 MM Demo<br>
 In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how our framework works. In our experiment, we specify the single kernel computation as 32x32x32 and tiling factor of A, B and C to 12, 8, 4 respectively. All the different size listed in Table VI are the result of different X, Y, Z and T_Z. X, Y, Z are specified in **input.cfg** file, whereas T_Z is configured in /host/host.cpp. Thus for case 2 the corrsponded number of X, Y, Z and T_Z are shown bellow. To reproduce our experiment result, one can simply change the number of X, Y, Z since T_Z will be automatical generated.<br>
 - Case 2 : 1536 × 2048 × 128 × 200 -> X=4, Y=8, Z=1, T_Z=200<br>
 
@@ -132,6 +132,24 @@ cd SysGen/${PRO_PATH}
 **5. Expected demo result**<br>
 It takes 4-8 hours to go through the whole processes and the expected throughput should be 4.3-4.4 TOPs as shown in the following figure.<br>
 ![image](https://user-images.githubusercontent.com/77606152/163298008-bb67c852-861f-4c87-800e-5328b789a3d3.png)<br>
+
+## NVIDIA A100 GPU FP32 MM<br>
+We set up the A100 GPU experiment for MM with FP32 data type by using cublasSgemm() API in cuBLAS from CUDA Toolkit 11.3. Only one compilation is needed for testing of different MM shapes.
+**1. Compilation flow of MM on A100 GPU** ( **1-2 min** )<br>
+```sh
+cd GPU
+make
+```
+
+**2. A100 GPU On board execution** ( **1-2 min** )<br>
+In the following, instruction ${H1}, ${W1} and ${W2} refers to the total matrix size of our experiment design points. ${H1}=T_X x X x A x I, ${W1}=T_Y x Y x B x K, ${W2}=T_Z x Z x C x J. For the demo case with size 1536 × 2048 × 128 × 200, ${H1} should be set to 1536, ${W1} should be set to 2048, ${W2} should be set to 128 × 200 which means 25600.<br>
+```sh
+./matrixMulCUBLAS H1=${H1} W1=${W1} W2=${W2}
+make
+```
+
+**3. Expected results on GPU for demo case** <br>
+**16-18 TFLOPs**
 
 ## Experiment customization<br>
 **1.System level Throuput Experiment**<br>
