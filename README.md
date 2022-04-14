@@ -133,7 +133,7 @@ cd SysGen/${PRO_PATH}
 ```
 
 **5. Expected demo result**<br>
-It takes 4-8 hours to go through the whole processes. We run the MM for 4000 iterations and calculate the average of throughput of a single iteration and the expected throughput should be 4.3-4.4 TOPs as shown in the following figure. For computation result comparison, we use  OpenMP library to leverage multiple threads of CPU.<br>
+It takes 4-8 hours to go through the whole processes. We run the MM for 4000 iterations and calculate the average throughput of a single iteration and the expected throughput should be 4.3-4.4 TOPs as shown in the following figure. For computation result comparison, we use  OpenMP library to leverage multiple threads of CPU.<br>
 ![image](https://user-images.githubusercontent.com/77606152/163298008-bb67c852-861f-4c87-800e-5328b789a3d3.png)<br>
 
 ## NVIDIA A100 GPU FP32 MM<br>
