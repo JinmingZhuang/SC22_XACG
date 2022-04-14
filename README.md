@@ -148,7 +148,9 @@ In the following instruction, ${H1}, ${W1} and ${W2} refer to the total matrix s
 ```
 
 **3. Expected results on GPU for demo case** <br>
-**16-18 TFLOPs**
+The expected throughput of demo case on A100 GPU should be 16-18 TFLOPs as shown in the following figure.<br>
+![image](https://user-images.githubusercontent.com/77606152/163456335-84ee259b-1f9a-4693-890b-e89143a9e787.png)<br>
+
 
 ## Experiment customization<br>
 **1.System level Throuput Experiment**<br>
