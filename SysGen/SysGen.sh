@@ -126,8 +126,10 @@ cp -r ../IOGen/${data_type}_12_8_4_${platform}/aie ./${file_name};
 if [[ "$platform" == "VCK5000" ]] || [[ "$platform" == "vck5000" ]]
 then
     echo \
-    "source /opt/tools/xilinx/Vitis/2021.2/settings64.sh;
+    "source with-sdaccel;
+source /opt/tools/xilinx/Vitis/2021.2/settings64.sh;
 source /opt/xilinx/xrt/setup.sh;
+
 
 cp -r ../../IOGen/${data_type}_12_8_4_${platform}/libadf.a ./;
 make all PLATFORM_NAME=xilinx_vck5000_gen3x16_xdma_1_202120_1 Frequency=250;">> ./${file_name}/run_sys.sh;

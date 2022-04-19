@@ -140,8 +140,10 @@ if [[ "$platform" == "VCK5000" ]] || [[ "$platform" == "vck5000" ]]
 then
 
 	echo \
-	"source /opt/tools/xilinx/Vitis/2021.2/settings64.sh;
+	"source with-sdaccel;
+source /opt/tools/xilinx/Vitis/2021.2/settings64.sh;
 source /opt/xilinx/xrt/setup.sh;
+
 
 make aiesim PLATFORM_NAME=xilinx_vck5000_gen3x16_xdma_1_202120_1;">> ./${dir_name}/run_aie.sh;
 chmod +x ./${dir_name}/run_aie.sh;
