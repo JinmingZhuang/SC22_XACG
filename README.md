@@ -65,7 +65,7 @@ In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how
 
 After getting the parameters, four simple steps are needed to reproduce the results.<br>
 **1. Automatically generate source code, compilation and run demo**<br>
-For convenience, by assigning 1 to the "AutoCompile" Parameter in ".cfg" file, our framework can automatically launch the compilation processes after XACG generate the source code. User could also do step by step code generation and compilation following the instructions in the later subsection.
+By assigning 1 to the "AutoCompile" Parameter in ".cfg" file, our framework can automatically launch the compilation processes after XACG generate the source code. User could also do step by step code generation and compilation following the instructions in the later subsection.
 ```sh
 git clone ${repo_path}
 cd SC22_XACG
@@ -105,19 +105,19 @@ XACG takes ".cfg" as input file. In order to reproduce the experiment results, w
 ./AutoGen.sh config_files/1536_2048_128_200.cfg
 ```
 **4. Compilation flow of Single Kernel, AIE Array and System**<br>
-1. KernelGen leverages AIE compiler as its banckend ( **3-5 min** )<br>
+1. KernelGen leverages AIE compiler as its backend ( **3-5 min** )<br>
 ```sh
 cd KernelGen/${PRO_PATH}
 ./run_aie.sh
 ```
 
-2. IOGen leverages AIE compiler as its banckend ( **30-60 min** )<br>
+2. IOGen leverages AIE compiler as its backend ( **30-60 min** )<br>
 ```sh
 cd IOGen/${PRO_PATH}
 ./run_aie.sh
 ```
 
-3. SysGen leverages Vitis and Vivado as its banckend ( **3-7 hours** )<br>
+3. SysGen leverages Vitis and Vivado as its backend ( **3-7 hours** )<br>
 ```sh
 cd SysGen/${PRO_PATH}
 ./run_sys.sh
@@ -151,7 +151,7 @@ In the following instruction, ${H1}, ${W1} and ${W2} refer to the total matrix s
 ```
 
 **3. Expected results on GPU for demo case** <br>
-The same as VCK5000 experiment, we run the MM for 4000 iterations and calculate the average of throughput of a single iteration. The expected throughput of demo case on A100 GPU should be 16-18 TFLOPs as shown in the following figure.<br>
+The same as VCK5000 experiment, we run the MM for 4000 iterations and calculate the average of throughput of a single iteration. The expected throughput of demo case on A100 GPU should be 16-17 TFLOPs as shown in the following figure.<br>
 ![image](https://user-images.githubusercontent.com/77606152/163463308-ab7df6ee-2dd3-4cb8-9c03-42ab1ae21394.png)<br>
 
 
