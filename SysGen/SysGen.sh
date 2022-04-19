@@ -439,14 +439,12 @@ int main(int argc, char** argv) {
                         for (int a=0; a<A; a++){
                             for (int h1=0; h1<H1; h1++){
                                 if((uint32_t)(out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X]) != golden[z][x][a][c][h1*W2+w2]){
-                                    if(a<4){
-                                        printf(\"Error found out_bomapped[%d]!=golden[%d][%d][%d][%d][%d], %d!=%d \n\", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
-                                    }
+                                    printf(\"Error found out_bomapped[%d]!=golden[%d][%d][%d][%d][%d], %d!=%d \n\", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
                                     errorCount++;
                                 }
-                                else{
-                                    printf(\"Correct found out_bomapped[%d]=golden[%d][%d][%d][%d][%d], %d=%d \n\", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
-                                }
+                                //else{
+                                //    printf(\"Correct found out_bomapped[%d]=golden[%d][%d][%d][%d][%d], %d=%d \n\", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
+                                //}
                             }
                         }
                     }
@@ -1487,14 +1485,12 @@ int main(int argc, char** argv) {
                         for (int a=0; a<A; a++){
                             for (int h1=0; h1<H1; h1++){
                                 if(abs((out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X])-golden[z][x][a][c][h1*W2+w2])>=1e-3){
-                                    if(a<4){
-                                        printf("'"Error found out_bomapped[%d]!=golden[%d][%d][%d][%d][%d], %f!=%f \n"'", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
-                                    }
+                                    printf("'"Error found out_bomapped[%d]!=golden[%d][%d][%d][%d][%d], %f!=%f \n"'", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
                                     errorCount++;
                                 }
-                                else{
-                                    printf("'"Correct found out_bomapped[%d]=golden[%d][%d][%d][%d][%d], %f=%f \n"'", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
-                                }
+                                //else{
+                                //    printf("'"Correct found out_bomapped[%d]=golden[%d][%d][%d][%d][%d], %f=%f \n"'", h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X,z,x,a,c,h1*W2+w2,out_bomapped[h1+a*H1+x*H1*A+w2*X*A*H1+c*OUT_SIZE*A*X+z*C*OUT_SIZE*A*X], golden[z][x][a][c][h1*W2+w2]);
+                                //}
                             }
                         }
                     }
