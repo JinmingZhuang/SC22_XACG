@@ -77,9 +77,17 @@ done < "$input"
 if (( ${IO_Gen} == 1 )) || (( ${Sys_Gen} == 1 ))
 then
 	kernel_type=1;
-	i=32;
-	j=32;
-	k=32;
+	if [ ${data_type} == "fp32" ] || [ ${data_type} == "int32" ]
+	then
+		i=32;
+		j=32;
+		k=32;
+	elif [ ${data_type} == "int16" ]
+	then
+		i=48;
+		j=48;
+		k=48;
+	fi
 fi
 
 
@@ -111,8 +119,6 @@ then
 		echo "
 		${size}=i*k+k*j+i*j should not be more than 4096
 		";
-		#read -p "
-#Please input single kernel size((i k j))>>>: " i k j;
 	fi
 fi
 

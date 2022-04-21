@@ -63,8 +63,15 @@ done < "$input"
 
 if (( ${Sys_Gen} == 1 ))
 then
-	row_num=12;
-	col_num=4;
+	if [ ${data_type} == "fp32" ] || [ ${data_type} == "int32" ]
+	then
+		row_num=12;
+		col_num=4;
+	elif [ ${data_type} == "int16" ]
+	then
+		row_num=8;
+		col_num=6;
+	fi
 fi
 
 let start_pos=2;
