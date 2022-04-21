@@ -67,10 +67,16 @@ then
 	then
 		row_num=12;
 		col_num=4;
+		aie_i=32;
+		aie_k=32;
+		aie_j=32;
 	elif [ ${data_type} == "int16" ]
 	then
 		row_num=8;
 		col_num=6;
+		aie_i=48;
+		aie_k=48;
+		aie_j=48;
 	fi
 fi
 
@@ -100,9 +106,9 @@ then
 rm -rf ./${dir_name}/conn.cfg;
 mkdir ./${dir_name};
 mkdir ./${dir_name}/aie;
-cp -r ../KernelGen/${data_type}_32_32_32_ker1_${platform}/aie/mm_kernel0.cc ./${dir_name}/aie
-cp -r ../KernelGen/${data_type}_32_32_32_ker1_${platform}/aie/mm_kernel1.cc ./${dir_name}/aie 
-cp -r ../KernelGen/${data_type}_32_32_32_ker1_${platform}/aie/para.h ./${dir_name}/aie
+cp -r ../KernelGen/${data_type}_${aie_i}_${aie_k}_${aie_j}_ker1_${platform}/aie/mm_kernel0.cc ./${dir_name}/aie
+cp -r ../KernelGen/${data_type}_${aie_i}_${aie_k}_${aie_j}_ker1_${platform}/aie/mm_kernel1.cc ./${dir_name}/aie 
+cp -r ../KernelGen/${data_type}_${aie_i}_${aie_k}_${aie_j}_ker1_${platform}/aie/para.h ./${dir_name}/aie
 cp -r Makefile ./${dir_name};
 
 if [[ "$platform" == "VCK5000" ]] || [[ "$platform" == "vck5000" ]]
