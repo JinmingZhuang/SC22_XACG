@@ -82,6 +82,7 @@ then
 	aie_i=32;
 	aie_k=32;
 	aie_j=32;
+	byte_per_data=4;
 elif [ ${data_type} == "int16" ]
 then
 	row_num=8;
@@ -89,6 +90,7 @@ then
 	aie_i=48;
 	aie_k=48;
 	aie_j=48;
+	byte_per_data=2;
 fi
 
 let start_pos=2;
@@ -434,7 +436,7 @@ do
 			let p=n*${row_num}*${boundry0}+i*${boundry0}+l;
 			let q=i*${col_num}+j+l*${R_BRO};
 			echo \
-			"		connect< pktstream, window< h1*w1*4 > >(in_row[${p}], mm_x8_0_${q}.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
+			"		connect< pktstream, window< h1*w1*${byte_per_data} > >(in_row[${p}], mm_x8_0_${q}.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
 		done
 	done
 done
@@ -456,7 +458,7 @@ do
 			let p=(n-2)*${col_num}*${boundry1}+i*${boundry1}+l;
 			let q=(j+l*${C_BRO})*${col_num}+i;
 			echo \
-			"		connect< pktstream, window< w1*w2*4 > >(in_col[${p}], mm_x8_0_${q}.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
+			"		connect< pktstream, window< w1*w2*${byte_per_data} > >(in_col[${p}], mm_x8_0_${q}.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
 		done
 	done
 done
@@ -474,14 +476,14 @@ then
 		do
 			let q=n%4;
 			echo \
-			"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${n}.out, mg_out.in[${q}]);">> ./${dir_name}/aie/mm_top.h;
+			"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${n}.out, mg_out.in[${q}]);">> ./${dir_name}/aie/mm_top.h;
 		done
 	else
 		for ((n=0;n<${k}-(${k}%4);n++));
 		do
 			let q=n%4;
 			echo \
-			"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${n}.out, mg_out.in[${q}]);">> ./${dir_name}/aie/mm_top.h;
+			"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${n}.out, mg_out.in[${q}]);">> ./${dir_name}/aie/mm_top.h;
 		done
 		if (( ${k}%4 == 1 ))
 		then
@@ -490,7 +492,7 @@ then
 				let q=${k}%4;
 				let p=${k}-q+n;
 				echo \
-				"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${p}.out, out[NUM_OUT_PACK]);">> ./${dir_name}/aie/mm_top.h;
+				"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${p}.out, out[NUM_OUT_PACK]);">> ./${dir_name}/aie/mm_top.h;
 			done
 		else
 			for ((n=0;n<(${k}%4);n++));
@@ -498,7 +500,7 @@ then
 				let q=${k}%4;
 				let p=${k}-q+n;
 				echo \
-				"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${p}.out, mg_out1.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
+				"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${p}.out, mg_out1.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
 			done
 		fi
 	fi
@@ -510,7 +512,7 @@ else
 			let p=n/4;
 			let q=n%4;
 			echo \
-			"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${n}.out, mg_out[${p}].in[${q}]);">> ./${dir_name}/aie/mm_top.h;
+			"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${n}.out, mg_out[${p}].in[${q}]);">> ./${dir_name}/aie/mm_top.h;
 		done
 	else
 		for ((n=0;n<${k}-(${k}%4);n++));
@@ -518,7 +520,7 @@ else
 			let p=n/4;
 			let q=n%4;
 			echo \
-			"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${n}.out, mg_out[${p}].in[${q}]);">> ./${dir_name}/aie/mm_top.h;
+			"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${n}.out, mg_out[${p}].in[${q}]);">> ./${dir_name}/aie/mm_top.h;
 		done
 		if (( ${k}%4 == 1 ))
 		then
@@ -527,7 +529,7 @@ else
 				let q=${k}%4;
 				let p=${k}-q+n;
 				echo \
-				"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${p}.out, out[NUM_OUT_PACK]);">> ./${dir_name}/aie/mm_top.h;
+				"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${p}.out, out[NUM_OUT_PACK]);">> ./${dir_name}/aie/mm_top.h;
 			done
 		else
 			for ((n=0;n<(${k}%4);n++));
@@ -535,7 +537,7 @@ else
 				let q=${k}%4;
 				let p=${k}-q+n;
 				echo \
-				"		adf::connect<adf::window<h1*w2*4>, adf::pktstream > (mm_x8_0_${p}.out, mg_out1.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
+				"		adf::connect<adf::window<h1*w2*${byte_per_data}>, adf::pktstream > (mm_x8_0_${p}.out, mg_out1.in[${n}]);">> ./${dir_name}/aie/mm_top.h;
 			done
 		fi
 	fi
@@ -638,18 +640,18 @@ public:
 			adf::location<kernel>(mm_x8[row]) = adf::tile(COL_OFFSET,ROW_OFFSET+row);
 
 			if(row<4){
-				adf::connect<pktstream, window<h1*w1*4>> (sp_a0.out[row], mm_x8[row].in[0]);
-				adf::connect<pktstream, window<w1*w2*4>> (sp_b0.out[row], mm_x8[row].in[1]);
+				adf::connect<pktstream, window<h1*w1*${byte_per_data}>> (sp_a0.out[row], mm_x8[row].in[0]);
+				adf::connect<pktstream, window<w1*w2*${byte_per_data}>> (sp_b0.out[row], mm_x8[row].in[1]);
 			}
 			else{
-				adf::connect<pktstream, window<h1*w1*4>> (sp_a1.out[row-4], mm_x8[row].in[0]);
-				adf::connect<pktstream, window<w1*w2*4>> (sp_b1.out[row-4], mm_x8[row].in[1]);
+				adf::connect<pktstream, window<h1*w1*${byte_per_data}>> (sp_a1.out[row-4], mm_x8[row].in[0]);
+				adf::connect<pktstream, window<w1*w2*${byte_per_data}>> (sp_b1.out[row-4], mm_x8[row].in[1]);
 			}
 			if(row<7){
-				adf::connect<window<h1*w2*4>> (mm_x8[row].out[0], mm_x8[row+1].in[2]);
+				adf::connect<window<h1*w2*${byte_per_data}>> (mm_x8[row].out[0], mm_x8[row+1].in[2]);
 			}
 			else{
-				adf::connect<window<h1*w2*4>>(mm_x8[row].out[0], out);
+				adf::connect<window<h1*w2*${byte_per_data}>>(mm_x8[row].out[0], out);
 			}
 		}
 		
