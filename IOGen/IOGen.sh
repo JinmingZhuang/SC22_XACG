@@ -67,17 +67,28 @@ then
 	then
 		row_num=12;
 		col_num=4;
-		aie_i=32;
-		aie_k=32;
-		aie_j=32;
 	elif [ ${data_type} == "int16" ]
 	then
 		row_num=8;
 		col_num=6;
-		aie_i=48;
-		aie_k=48;
-		aie_j=48;
 	fi
+fi
+
+
+if [ ${data_type} == "fp32" ] || [ ${data_type} == "int32" ]
+then
+	row_num=12;
+	col_num=4;
+	aie_i=32;
+	aie_k=32;
+	aie_j=32;
+elif [ ${data_type} == "int16" ]
+then
+	row_num=8;
+	col_num=6;
+	aie_i=48;
+	aie_k=48;
+	aie_j=48;
 fi
 
 let start_pos=2;
