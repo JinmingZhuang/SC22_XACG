@@ -408,7 +408,7 @@ int main(int argc, char** argv) {
         auto kernel_end = std::chrono::high_resolution_clock::now();
         kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
         kernel_time_in_sec = kernel_time.count();
-        double TOPS = H1 * 1.024 * 3.84 * X * Y * Z * 2 *iter* 1e-4 / kernel_time_in_sec;
+        double TOPS = (double)(H1 * W1 * W2 * A * B * C) * (double)(X * Y * Z * 2 * iter * 1e-9) / kernel_time_in_sec;
         std::cout << std::endl;
         std::cout << std::endl;
         std::cout << \"Total execution time is: \"<< kernel_time_in_sec <<\"s, TOPS = \" << TOPS << \" GOPS/s\" << std::endl;
@@ -1455,7 +1455,7 @@ int main(int argc, char** argv) {
         auto kernel_end = std::chrono::high_resolution_clock::now();
         kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
         kernel_time_in_sec = kernel_time.count();
-        double TOPS = H1 * 1.024 * 3.84 * X * Y * Z * 2 *iter* 1e-4 / kernel_time_in_sec;
+        double TOPS = (double)(H1 * W1 * W2 * A * B * C) * (double)(X * Y * Z * 2 * iter * 1e-9) / kernel_time_in_sec;
         std::cout << std::endl;
         std::cout << std::endl;
         std::cout << "'"Total execution time is: "'"<< kernel_time_in_sec <<"'"s, TOPS = "'" << TOPS << "'" GOPS/s"'" << std::endl;
