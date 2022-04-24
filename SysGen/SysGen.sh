@@ -566,7 +566,7 @@ void sendA(ap_uint<PLIO_WIDTH> a_buf[X*Y][LEFT_SIZE*PACKET_NUM],axis_stream& txA
             int tile=0;
             if(k<10){
                 ID=packet_id0[k];
-                tile=tile0[k];
+                tile=tile0[k]%(X*Y);
             }
             else if(k<(X*PACKET_NUM*Y*Z-6)){
                 int cnt=k-10;
@@ -1613,7 +1613,7 @@ void sendA(ap_uint<PLIO_WIDTH> a_buf[X*Y][LEFT_SIZE*PACKET_NUM],axis_stream& txA
             int tile=0;
             if(k<10){
                 ID=packet_id0[k];
-                tile=tile0[k];
+                tile=tile0[k]%(X*Y);
             }
             else if(k<(X*PACKET_NUM*Y*Z-6)){
                 int cnt=k-10;
