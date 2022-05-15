@@ -77,16 +77,12 @@ fi
 
 if [ ${data_type} == "fp32" ] || [ ${data_type} == "int32" ]
 then
-	row_num=12;
-	col_num=4;
 	aie_i=32;
 	aie_k=32;
 	aie_j=32;
 	byte_per_data=4;
 elif [ ${data_type} == "int16" ]
 then
-	row_num=8;
-	col_num=6;
 	aie_i=48;
 	aie_k=48;
 	aie_j=48;
@@ -155,8 +151,8 @@ echo \
 ">> ./${dir_name}/aie/para.h
 
 let k=${row_num}*${col_num};
-let R_BRO=${col_num};
-let C_BRO=2;
+let R_BRO=4;
+let C_BRO=3;
 let boundry0=${col_num}/${R_BRO};
 let boundry1=${row_num}/${C_BRO};
 echo \
@@ -670,13 +666,14 @@ nk=dma:1:dma_0
 
 for ((n=0;n<2;n++));
 do
-for ((i=0;i<${row_num};i++));
+for ((l=0;l<${boundry0};l++));
 do 	
-
-		let p=n*${row_num}+i;
-		let q=i*${col_num}+j+l*${R_BRO};
+	for ((i=0;i<${row_num};i++));
+	do
+		let p=n*${row_num}*${boundry0}+l*${row_num}+i;
 		echo \
 		"stream_connect = dma_0.txA_${p}:ai_engine_0.in_r${p}">> ./${dir_name}/conn.cfg;
+	done
 done
 done
 
