@@ -85,7 +85,7 @@ The expected experiment result for size 4096*4096*4096 should be:<br>
 In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how our framework works. In our experiment, we specify the single kernel computation as 32x32x32 and tiling factor of A, B and C to 12, 8, 4 respectively. All the different size listed in Table VI are the result of different X, Y, Z and T_Z. X, Y, Z are specified in **input.cfg** file, whereas T_Z is configured in /host/host.cpp. Thus for case 2 the corrsponded number of X, Y, Z and T_Z are shown bellow. To reproduce our experiment result, one can simply change the number of X, Y, Z since T_Z will be automatical generated.<br>
 - Case 2 : 1536 × 2048 × 25600 -> X=4, Y=8, Z=1, T_Z=200<br>
 
-![image](https://user-images.githubusercontent.com/77606152/163144535-3d8dd67e-21da-4d1b-a0ac-4600cfbd9e5f.png)<br>
+![image](https://user-images.githubusercontent.com/77606152/172041398-e51d0f82-73f4-43c6-bf6b-87429c307594.png)<br>
 
 After getting the parameters, four simple steps are needed to reproduce the results.<br>
 **1. Automatically generate source code, compilation and run demo**<br>
