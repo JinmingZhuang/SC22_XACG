@@ -74,18 +74,18 @@ source /opt/xilinx/xrt/setup.sh
 cd pre-built
 ./hostexe mm_hw.xclbin
 ```
-The matrix-matrix multiply can be desribed by (M * K) * (K * N). User should provide the number of M, N and K as shown below.<br>
-![image](https://user-images.githubusercontent.com/77606152/172038829-526a035b-8d6d-4f2f-bacc-90a877cb1806.png)<br>
+The matrix-matrix multiply can be desribed by (M * K) * (K * N). User should provide the number of M, N and K as shown below. For better measure the throughput, we launch the kernel for multiple times and calculate the average throughput. User can input the number of iteration of launching the kernel, i.e. 100. <br>
+![image](https://user-images.githubusercontent.com/77606152/172040533-54e4fd29-9cbb-4bbb-9565-32d4aa06a36e.png))<br>
 
-The expected experiment result for size 16384*16384*16384 should be:<br>
-![image](https://user-images.githubusercontent.com/77606152/172037764-951d3519-05bd-44fd-90a0-49e2883ef86d.png)<br> 
+The expected experiment result for size 4096*4096*4096 should be:<br>
+![image](https://user-images.githubusercontent.com/77606152/172040557-8cf1a7a0-4e2a-4ad8-985d-83be6d587982.png)<br> 
 
 
 ## VCK5000 speicialized fp32 MM Demo<br>
 In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how our framework works. In our experiment, we specify the single kernel computation as 32x32x32 and tiling factor of A, B and C to 12, 8, 4 respectively. All the different size listed in Table VI are the result of different X, Y, Z and T_Z. X, Y, Z are specified in **input.cfg** file, whereas T_Z is configured in /host/host.cpp. Thus for case 2 the corrsponded number of X, Y, Z and T_Z are shown bellow. To reproduce our experiment result, one can simply change the number of X, Y, Z since T_Z will be automatical generated.<br>
 - Case 2 : 1536 × 2048 × 25600 -> X=4, Y=8, Z=1, T_Z=200<br>
 
-![image](https://user-images.githubusercontent.com/77606152/163144535-3d8dd67e-21da-4d1b-a0ac-4600cfbd9e5f.png)<br>
+![image](https://user-images.githubusercontent.com/77606152/172041431-9d25a9fe-ff11-4bf0-9e0c-1273bdc1d293.png)<br>
 
 After getting the parameters, four simple steps are needed to reproduce the results.<br>
 **1. Automatically generate source code, compilation and run demo**<br>
