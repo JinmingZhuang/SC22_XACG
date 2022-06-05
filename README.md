@@ -2,14 +2,23 @@
 ## Framework Overview
 **This repo includes an automatic code generation(ACG) framework XACG for generating the source code targeting on dense matrix-matrix multiply(MM) for AMD/XILINX VCK190 and VCK5000 platforms**. 
 
+**Overall Description** As shown in the following figure, we illustrate the two user scenarios for using our framework: 
+1) For users who seek the library solution to accelerate GEMM on Versal ACAP, we provide a pre-built general solution design and user API to call the accelerator that can process GEMM with arbitrary shapes. 
+2) For those who want to build a customized  design, e.g., a GEMM accelerator as a stage within a pipeline of multiple accelerators, they can leverage our automatic code generator~(XACG) module to generate the customized  design. We will integrate the automatic design space exploration(XDSE) tool in the near future.
+The customized design achieves optimized throughput for a single shape or optimized average throughput for a set of shapes, which usually outperforms in throughput when compared with the general solution.
+
 **XACG** takes platform information and user-specified design point as input, and automatically generated the systen-level design by launching the following 3 template based components sequentially:<br>
+
 **XACG-KernelGen:** XACG-KernelGen is launched to generate both the single AI Engine(AIE) C code and adaptive data flow (ADF) graph code in C++ for verfying the correctness of single kernel design. MM kernels with int16, int32, fp32 data type in different shape that can be fit in single kernel are supported in current version.<br>
 
 **XACG-IOGen:** Based on the single kernel created by XACG-KernelGen, XACG-IOGen is launched to generate new ADF graph code that defines how packet-switch streams are connected to AIE array which contains 400 AIEs. Single kernel calculating 32x32x32 MM with int32 and fp32 data type is supported to scale out to the AIE array. <br>
 
-**XACG-SysGen:** Based on the AIE array created by XACG-IOGen, XACG-SysGen is launched to generate PL streams, scheduling controller modules to communicate with AIE array and PL on-chip buffers, off-chip AXI data transfer modules to communicate with DDR. Differnet system level designs varying in on-chip buffer size and its implementation option (BRAM or URAM) for int32 and fp32 data type are supported.<br>
-<br>
-![XACG](https://user-images.githubusercontent.com/77606152/163127636-76361ad2-8057-4f91-9211-cfd0b2c13c8b.png)<br>
+**XACG-SysGen:** Based on the AIE array created by XACG-IOGen, XACG-SysGen is launched to generate PL streams, scheduling controller C/C++ HLS modules to communicate with AIE array and PL on-chip buffers, off-chip AXI data transfer modules to communicate with DDR. Differnet system level designs varying in on-chip buffer size and its implementation option (BRAM or URAM) for int32 and fp32 data type are supported.<br>
+
+**Compilation**
+After code generation, the vendor tools AIE compiler and V++ compiler take ADF gragh and HLS C/C++ as input respectively. Their output object file libadf.a and kernel.xo will be linked into xclbin file which includes the hardware information of the design for the target platform. C++ compiler compiles XRT API based host code to executable file runs on CPU.<br>
+
+![image](https://user-images.githubusercontent.com/77606152/172036179-96eb8435-6f98-424f-88ad-65edec79994f.png)<br>
 
 ## Configuration File "./config_files/input.cfg"
 In the following configuration file, users can specify platform, data type, kernel type and mapping strategy of each level. The feasible option of each parameter are illustrated in **( )** The rules of using this configuration file are listed below:
@@ -49,6 +58,7 @@ AutoCompile:1;                #(0 | 1)
 Following environments are automatically set when launch each ACGs. The detail can be viewed in run.aie.sh or run.sys.sh after generating the corresponding code. <br>
 1. VCK5000: Vitis 2021.2, XRT 2021.2 <br>
 ```sh
+source with-sdaccel
 source /opt/tools/xilinx/Vitis/2021.2/settings64.sh
 source /opt/xilinx/xrt/setup.sh
 ```
@@ -56,8 +66,10 @@ source /opt/xilinx/xrt/setup.sh
 ```sh
 VIV_VER=2021.1 SDA_VER=2021.1 . with-sdaccel
 ```
+## VCK5000 pre-built fp32 MM Demo<br>
+We provide the executable files for on board test of pre-built design under 
 
-## VCK5000 Int32 MM Demo<br>
+## VCK5000 speicialized fp32 MM Demo<br>
 In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how our framework works. In our experiment, we specify the single kernel computation as 32x32x32 and tiling factor of A, B and C to 12, 8, 4 respectively. All the different size listed in Table VI are the result of different X, Y, Z and T_Z. X, Y, Z are specified in **input.cfg** file, whereas T_Z is configured in /host/host.cpp. Thus for case 2 the corrsponded number of X, Y, Z and T_Z are shown bellow. To reproduce our experiment result, one can simply change the number of X, Y, Z since T_Z will be automatical generated.<br>
 - Case 2 : 1536 × 2048 × 128 × 200 -> X=4, Y=8, Z=1, T_Z=200<br>
 
