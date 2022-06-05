@@ -2,6 +2,11 @@
 ## Framework Overview
 **This repo includes an automatic code generation(ACG) framework XACG for generating the source code targeting on dense matrix-matrix multiply(MM) for AMD/XILINX VCK190 and VCK5000 platforms**. 
 
+**Overall Description** As shown in the following figure, we illustrate the two user scenarios for using our framework: 
+1) For users who seek the library solution to accelerate GEMM on Versal ACAP, we provide a pre-built general solution design and user API to call the accelerator that can process GEMM with arbitrary shapes. 
+2) For those who want to build a customized  design, e.g., a GEMM accelerator as a stage within a pipeline of multiple accelerators, they can leverage our automatic code generator~(XACG) module to generate the customized  design. We will integrate the automatic design space exploration(XDSE) tool in the near future.
+The customized design achieves optimized throughput for a single shape or optimized average throughput for a set of shapes, which usually outperforms in throughput when compared with the general solution.
+
 **XACG** takes platform information and user-specified design point as input, and automatically generated the systen-level design by launching the following 3 template based components sequentially:<br>
 **XACG-KernelGen:** XACG-KernelGen is launched to generate both the single AI Engine(AIE) C code and adaptive data flow (ADF) graph code in C++ for verfying the correctness of single kernel design. MM kernels with int16, int32, fp32 data type in different shape that can be fit in single kernel are supported in current version.<br>
 
@@ -10,6 +15,9 @@
 **XACG-SysGen:** Based on the AIE array created by XACG-IOGen, XACG-SysGen is launched to generate PL streams, scheduling controller modules to communicate with AIE array and PL on-chip buffers, off-chip AXI data transfer modules to communicate with DDR. Differnet system level designs varying in on-chip buffer size and its implementation option (BRAM or URAM) for int32 and fp32 data type are supported.<br>
 <br>
 ![image](https://user-images.githubusercontent.com/77606152/172036179-96eb8435-6f98-424f-88ad-65edec79994f.png)<br>
+
+## Pre-built design
+
 
 ## Configuration File "./config_files/input.cfg"
 In the following configuration file, users can specify platform, data type, kernel type and mapping strategy of each level. The feasible option of each parameter are illustrated in **( )** The rules of using this configuration file are listed below:
