@@ -67,11 +67,23 @@ source /opt/xilinx/xrt/setup.sh
 VIV_VER=2021.1 SDA_VER=2021.1 . with-sdaccel
 ```
 ## VCK5000 pre-built fp32 MM Demo<br>
-We provide the executable files for on board test of pre-built design under 
+We provide the executable files "hostexe" and "mm_hw.xclbin" for on board test of pre-built design under /pre_built directory. Users can load it directly on board to launch the design.<br>
+```sh
+source /opt/tools/xilinx/Vitis/2021.2/settings64.sh
+source /opt/xilinx/xrt/setup.sh
+cd pre-built
+./hostexe mm_hw.xclbin
+```
+The matrix-matrix multiply can be desribed by (M * K) * (K * N). User should provide the number of M, N and K as shown below.<br>
+![image](https://user-images.githubusercontent.com/77606152/172038829-526a035b-8d6d-4f2f-bacc-90a877cb1806.png)<br>
+
+The expected experiment result for size 16384*16384*16384 should be:<br>
+![image](https://user-images.githubusercontent.com/77606152/172037764-951d3519-05bd-44fd-90a0-49e2883ef86d.png)<br> 
+
 
 ## VCK5000 speicialized fp32 MM Demo<br>
 In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how our framework works. In our experiment, we specify the single kernel computation as 32x32x32 and tiling factor of A, B and C to 12, 8, 4 respectively. All the different size listed in Table VI are the result of different X, Y, Z and T_Z. X, Y, Z are specified in **input.cfg** file, whereas T_Z is configured in /host/host.cpp. Thus for case 2 the corrsponded number of X, Y, Z and T_Z are shown bellow. To reproduce our experiment result, one can simply change the number of X, Y, Z since T_Z will be automatical generated.<br>
-- Case 2 : 1536 × 2048 × 128 × 200 -> X=4, Y=8, Z=1, T_Z=200<br>
+- Case 2 : 1536 × 2048 × 25600 -> X=4, Y=8, Z=1, T_Z=200<br>
 
 ![image](https://user-images.githubusercontent.com/77606152/163144535-3d8dd67e-21da-4d1b-a0ac-4600cfbd9e5f.png)<br>
 
@@ -86,7 +98,7 @@ git checkout master
 ./hostexe mm_hw.xclbin >> result.log
 ```
 **2. ".cfg" file configuration**<br>
-Start from here, the instructions described below acheives the same results of the first automatic step. We will use pre-defined file config_files/1536_2048_128_200.cfg as input in this demo. <br>
+Start from here, the instructions described below acheives the same results of the first automatic step. We will use pre-defined file config_files/1536_2048_25600.cfg as input in this demo. <br>
 ```sh
 Platform:VCK5000;
 KernelGen:1;
@@ -114,7 +126,7 @@ AutoCompile:0;
 **3. Code generation by XACG**<br>
 XACG takes ".cfg" as input file. In order to reproduce the experiment results, we prepared all the ".cfg" file of listed int32 experiments on VCK5000 in ./config_files with the name specify their MM size. If not specify input file. Then XACG will take input.cfg as default settting.<br>
 ```sh
-./AutoGen.sh config_files/1536_2048_128_200.cfg
+./AutoGen.sh config_files/1536_2048_25600.cfg
 ```
 **4. Compilation flow of Single Kernel, AIE Array and System**<br>
 1. KernelGen leverages AIE compiler as its backend ( **3-5 min** )<br>
@@ -157,7 +169,7 @@ make
 ```
 
 **2. A100 GPU On board execution** ( **1-2 min** )<br>
-In the following instruction, ${H1}, ${W1} and ${W2} refer to the total matrix size of our experiment design points. ${H1}=T_X x X x A x I, ${W1}=T_Y x Y x B x K, ${W2}=T_Z x Z x C x J. For the demo case with size 1536 × 2048 × 128 × 200, ${H1} should be set to 1536, ${W1} should be set to 2048, ${W2} should be set to 128 × 200 which means 25600.<br>
+In the following instruction, ${H1}, ${W1} and ${W2} refer to the total matrix size of our experiment design points. ${H1}=T_X x X x A x I, ${W1}=T_Y x Y x B x K, ${W2}=T_Z x Z x C x J. For the demo case with size 1536 × 2048 × 25600, ${H1} should be set to 1536, ${W1} should be set to 2048, ${W2} should be set to 25600.<br>
 ```sh
 ./matrixMulCUBLAS H1=${H1} W1=${W1} W2=${W2}
 ```
