@@ -74,10 +74,10 @@ source /opt/xilinx/xrt/setup.sh
 cd pre-built
 ./hostexe mm_hw.xclbin
 ```
-The matrix-matrix multiply can be desribed by (M*K) * (K*N). User should provide the number of M, N and K as shown below.<br>
-![image](https://user-images.githubusercontent.com/77606152/172037722-6fe940d9-b728-44bd-96d2-2c881b472b13.png)<br>
+The matrix-matrix multiply can be desribed by (M * K) * (K * N). User should provide the number of M, N and K as shown below.<br>
+![image](https://user-images.githubusercontent.com/77606152/172038829-526a035b-8d6d-4f2f-bacc-90a877cb1806.png)<br>
 
-The expected experiment result for size 1024*1024*1024 should be:<br>
+The expected experiment result for size 16384*16384*16384 should be:<br>
 ![image](https://user-images.githubusercontent.com/77606152/172037764-951d3519-05bd-44fd-90a0-49e2883ef86d.png)<br> 
 
 
