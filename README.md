@@ -9,7 +9,7 @@
 
 **XACG-SysGen:** Based on the AIE array created by XACG-IOGen, XACG-SysGen is launched to generate PL streams, scheduling controller modules to communicate with AIE array and PL on-chip buffers, off-chip AXI data transfer modules to communicate with DDR. Differnet system level designs varying in on-chip buffer size and its implementation option (BRAM or URAM) for int32 and fp32 data type are supported.<br>
 <br>
-![XACG](https://user-images.githubusercontent.com/77606152/163127636-76361ad2-8057-4f91-9211-cfd0b2c13c8b.png)<br>
+![image](https://user-images.githubusercontent.com/77606152/172036179-96eb8435-6f98-424f-88ad-65edec79994f.png)<br>
 
 ## Configuration File "./config_files/input.cfg"
 In the following configuration file, users can specify platform, data type, kernel type and mapping strategy of each level. The feasible option of each parameter are illustrated in **( )** The rules of using this configuration file are listed below:
