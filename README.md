@@ -74,11 +74,11 @@ source /opt/xilinx/xrt/setup.sh
 cd pre-built
 ./hostexe mm_hw.xclbin
 ```
-The matrix-matrix multiply can be desribed by (M * K) * (K * N). User should provide the number of M, N and K as shown below.<br>
-![image](https://user-images.githubusercontent.com/77606152/172038829-526a035b-8d6d-4f2f-bacc-90a877cb1806.png)<br>
+The matrix-matrix multiply can be desribed by (M * K) * (K * N). User should provide the number of M, N and K as shown below. For better measure the throughput, we launch the kernel for multiple times and calculate the average throughput. User can input the number of iteration of launching the kernel, i.e. 100. <br>
+![image](https://user-images.githubusercontent.com/77606152/172040533-54e4fd29-9cbb-4bbb-9565-32d4aa06a36e.png))<br>
 
-The expected experiment result for size 16384*16384*16384 should be:<br>
-![image](https://user-images.githubusercontent.com/77606152/172037764-951d3519-05bd-44fd-90a0-49e2883ef86d.png)<br> 
+The expected experiment result for size 4096*4096*4096 should be:<br>
+![image](https://user-images.githubusercontent.com/77606152/172040557-8cf1a7a0-4e2a-4ad8-985d-83be6d587982.png)<br> 
 
 
 ## VCK5000 speicialized fp32 MM Demo<br>
