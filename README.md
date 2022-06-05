@@ -67,7 +67,14 @@ source /opt/xilinx/xrt/setup.sh
 VIV_VER=2021.1 SDA_VER=2021.1 . with-sdaccel
 ```
 ## VCK5000 pre-built fp32 MM Demo<br>
-We provide the executable files for on board test of pre-built design under 
+We provide the executable files "hostexe" and "mm_hw.xclbin" for on board test of pre-built design under /pre_built directory. Users can load it directly on board to launch the design.<br>
+By running the following instructions, user can view throughput and computation result in result.log.<br>
+```sh
+source /opt/tools/xilinx/Vitis/2021.2/settings64.sh
+source /opt/xilinx/xrt/setup.sh
+cd pre-built
+./hostexe mm_hw.xclbin >> result.log
+```
 
 ## VCK5000 speicialized fp32 MM Demo<br>
 In this section, we take fp32 datatype of case 2 as an exmple to demonstrate how our framework works. In our experiment, we specify the single kernel computation as 32x32x32 and tiling factor of A, B and C to 12, 8, 4 respectively. All the different size listed in Table VI are the result of different X, Y, Z and T_Z. X, Y, Z are specified in **input.cfg** file, whereas T_Z is configured in /host/host.cpp. Thus for case 2 the corrsponded number of X, Y, Z and T_Z are shown bellow. To reproduce our experiment result, one can simply change the number of X, Y, Z since T_Z will be automatical generated.<br>
