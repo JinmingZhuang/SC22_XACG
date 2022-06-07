@@ -60,6 +60,7 @@
 #include <helper_functions.h>
 #include <helper_cuda.h>
 #include <string>
+#include <math.h>
 
 #ifndef min
 #define min(a,b) ((a < b) ? a : b)
@@ -266,8 +267,16 @@ int matrixMultiply(int argc, char **argv, int devID, sMatrixSize &matrix_size)
     printf("Computing result using CUBLAS...");
 
     // execute the kernel
-    int nIter = 4000;
+    //unsigned int n1=512*6*8;
+    //unsigned int nIter = ceil(4096*768/(n1));
 
+    unsigned int nIter =4000;
+    if (checkCmdLineFlag(argc, (const char **)argv, "Iter"))
+    {
+        nIter = getCmdLineArgumentInt(argc, (const char **)argv, "Iter=");
+    }
+    
+    printf("Iter: %d\n", nIter);
     // CUBLAS version 2.0
     {
         const float alpha = 1.0f;
