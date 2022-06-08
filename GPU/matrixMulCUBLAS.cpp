@@ -316,15 +316,15 @@ int matrixMultiply(int argc, char **argv, int devID, sMatrixSize &matrix_size)
         checkCudaErrors(cudaEventElapsedTime(&msecTotal, start, stop));
 
         // Compute and print the performance
+        float secTotal= msecTotal/1000.0f;
         float msecPerMatrixMul = msecTotal / nIter;
         double flopsPerMatrixMul = 2.0 * (double)matrix_size.uiHC * (double)matrix_size.uiWC * (double)matrix_size.uiHB;
         double gigaFlops = (flopsPerMatrixMul * 1.0e-9f) / (msecPerMatrixMul / 1000.0f);
         printf(
-            "Performance= %.2f GFlop/s, Total_time= %.3f msec, Time= %.3f msec, Size= %.0f Ops\n",
-            gigaFlops,
-            msecTotal,
-            msecPerMatrixMul,
-            flopsPerMatrixMul);
+            "Total_time= %.3f sec, Performance= %.2f GFlop/s\n",
+            secTotal,
+            gigaFlops
+            );
 
         // copy result from device to host
         checkCudaErrors(cudaMemcpy(h_CUBLAS, d_C, mem_size_C, cudaMemcpyDeviceToHost));
@@ -347,9 +347,9 @@ int matrixMultiply(int argc, char **argv, int devID, sMatrixSize &matrix_size)
     //    printDiff(reference, h_CUBLAS, matrix_size.uiWC, matrix_size.uiHC, 100, 1.0e-5f);
     //}
 
-    printf("Comparing CUBLAS Matrix Multiply with CPU results: %s\n", (true == resCUBLAS) ? "PASS" : "FAIL");
+    //printf("Comparing CUBLAS Matrix Multiply with CPU results: %s\n", (true == resCUBLAS) ? "PASS" : "FAIL");
 
-    printf("\nNOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.\n");
+    //printf("\nNOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.\n");
 
     // clean up memory
     free(h_A);
