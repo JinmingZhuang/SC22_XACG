@@ -1,3 +1,9 @@
+
+echo \
+"
+Run starts, it takes 15-20min to finish
+"
+
 ./matrixMulCUBLAS H1=1024 W1=1024 W2=1024 Iter=48000 >> 1_result_1K;
 sleep 30;
 ./matrixMulCUBLAS H1=2048 W1=2048 W2=2048 Iter=6000 >> 2_result_2K;
