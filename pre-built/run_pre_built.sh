@@ -1,5 +1,12 @@
 source /opt/tools/xilinx/Vitis/2021.2/settings64.sh;
 source /opt/xilinx/xrt/setup.sh;
+
+echo \
+"
+Run starts, it takes 15-20min to finish
+"
+
+
 ./hostexe mm_hw.xclbin 1024  1024  1024 40000 >> 1_result_1K;
 sleep 30;
 ./hostexe mm_hw.xclbin 2048  2048  2048 8000 >> 2_result_2K;
