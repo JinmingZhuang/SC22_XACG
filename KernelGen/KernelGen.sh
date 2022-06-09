@@ -151,7 +151,7 @@ source /opt/tools/xilinx/Vitis/2021.2/settings64.sh;
 source /opt/xilinx/xrt/setup.sh;
 
 
-make aiesim PLATFORM_NAME=xilinx_vck5000_gen3x16_xdma_1_202120_1;">> ./${dir_name}/run_aie.sh;
+make aie PLATFORM_NAME=xilinx_vck5000_gen3x16_xdma_1_202120_1;">> ./${dir_name}/run_aie.sh;
 chmod +x ./${dir_name}/run_aie.sh;
 
 elif [[ "$platform" == "VCK190" ]] || [[ "$platform" == "vck190" ]]
@@ -160,7 +160,7 @@ then
 	echo \
 	"VIV_VER=2021.1 SDA_VER=2021.1 . with-sdaccel;
 
-make aiesim PLATFORM_NAME=xilinx_vck190_base_202110_1;">> ./${dir_name}/run_aie.sh;
+make aie PLATFORM_NAME=xilinx_vck190_base_202110_1;">> ./${dir_name}/run_aie.sh;
 chmod +x ./${dir_name}/run_aie.sh;
 else 
 	echo "Specified platform currently is not supported. Please input VCK5000 or VCK190"
