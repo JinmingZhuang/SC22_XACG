@@ -1,13 +1,18 @@
 source /opt/tools/xilinx/Vitis/2021.2/settings64.sh;
 source /opt/xilinx/xrt/setup.sh;
-./hostexe mm_hw.xclbin 1024  1024  1024 40000 >> result_1K.log;
-./hostexe mm_hw.xclbin 2048  2048  2048 8000 >> result_2K.log;
-./hostexe mm_hw.xclbin 4096  4096  4096 1800 >> result_4K.log;
-./hostexe mm_hw.xclbin 8192  8192  8192 230 >> result_8K.log;
-./hostexe mm_hw.xclbin 16384 16384 16384 36 >> result_16K.log;
+./hostexe mm_hw.xclbin 1024  1024  1024 40000 >> 1_result_1K;
+sleep 30;
+./hostexe mm_hw.xclbin 2048  2048  2048 8000 >> 2_result_2K;
+sleep 30;
+./hostexe mm_hw.xclbin 4096  4096  4096 1800 >> 3_result_4K;
+sleep 30;
+./hostexe mm_hw.xclbin 8192  8192  8192 230 >> 4_result_8K;
+sleep 30;
+./hostexe mm_hw.xclbin 16384 16384 16384 36 >> 5_result_16K;
+sleep 30;
 
 rm -rf TableVI_Pre.log;
-for filename in result_*;
+for filename in *_result_*;
 do
 	let n=1;
 	while read line; do
@@ -20,16 +25,21 @@ do
 	done < ./$filename
 done
 
-rm -rf result_*;
+rm -rf *_result_*;
 
-./hostexe mm_hw.xclbin 1536  1024  81920 600 >> result_1536_1024_81920.log;
-./hostexe mm_hw.xclbin 1536  2048  25600 1440 >> result_1536_2048_25600.log;
-./hostexe mm_hw.xclbin 768  1280  122880 1300 >> result_768_1280_122880.log;
-./hostexe mm_hw.xclbin 768  1792  81920 3600 >> result_768_1792_81920.log;
-./hostexe mm_hw.xclbin 1536 1792 25600 450 >> result_1536_1792_25600.log;
+./hostexe mm_hw.xclbin 1536  1024  81920 600 >> 1_result_1536_1024_81920;
+sleep 30;
+./hostexe mm_hw.xclbin 1536  2048  25600 1440 >> 2_result_1536_2048_25600;
+sleep 30;
+./hostexe mm_hw.xclbin 768  1280  122880 1300 >> 3_result_768_1280_122880;
+sleep 30;
+./hostexe mm_hw.xclbin 768  1792  81920 3600 >> 4_result_768_1792_81920;
+sleep 30;
+./hostexe mm_hw.xclbin 1536 1792 25600 450 >> 5_result_1536_1792_25600;
+sleep 30;
 
 rm -rf TableVII_Pre.log;
-for filename in result_*;
+for filename in *_result_*;
 do
 	let n=1;
 	while read line; do
@@ -42,4 +52,4 @@ do
 	done < ./$filename
 done
 
-rm -rf result_*;
+rm -rf *_result_*;
