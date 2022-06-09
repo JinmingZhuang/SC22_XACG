@@ -31,11 +31,11 @@ rm -rf *_result_*;
 sleep 30;
 ./hostexe mm_hw.xclbin 1536  2048  25600 1440 >> 2_result_1536_2048_25600;
 sleep 30;
-./hostexe mm_hw.xclbin 768  1280  122880 1300 >> 3_result_768_1280_122880;
+./hostexe mm_hw.xclbin 768  1280  122880 360 >> 3_result_768_1280_122880;
 sleep 30;
-./hostexe mm_hw.xclbin 768  1792  81920 3600 >> 4_result_768_1792_81920;
+./hostexe mm_hw.xclbin 768  1792  81920 450 >> 4_result_768_1792_81920;
 sleep 30;
-./hostexe mm_hw.xclbin 1536 1792 25600 450 >> 5_result_1536_1792_25600;
+./hostexe mm_hw.xclbin 1536 1792 25600 1450 >> 5_result_1536_1792_25600;
 sleep 30;
 
 rm -rf TableVII_Pre.log;
