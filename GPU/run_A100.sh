@@ -1,16 +1,16 @@
-./matrixMulCUBLAS H1=1024 W1=1024 W2=1024 Iter=550000 >> result_1K.log;
+./matrixMulCUBLAS H1=1024 W1=1024 W2=1024 Iter=550000 >> 1_result_1K;
 sleep 30;
-./matrixMulCUBLAS H1=3048 W1=3048 W2=3048 Iter=70000 >> result_2K.log;
+./matrixMulCUBLAS H1=3048 W1=3048 W2=3048 Iter=70000 >> 2_result_2K;
 sleep 30;
-./matrixMulCUBLAS H1=4096 W1=4096 W2=4096 Iter=9500 >> result_4K.log;
+./matrixMulCUBLAS H1=4096 W1=4096 W2=4096 Iter=9500 >> 3_result_4K;
 sleep 30;
-./matrixMulCUBLAS H1=8192 W1=8192 W2=8192 Iter=1300 >> result_8K.log;
+./matrixMulCUBLAS H1=8192 W1=8192 W2=8192 Iter=1300 >> 4_result_8K;
 sleep 30;
-./matrixMulCUBLAS H1=16384 W1=16384 W2=16384 Iter=140 >> result_16K.log;
+./matrixMulCUBLAS H1=16384 W1=16384 W2=16384 Iter=140 >> 5_result_16K;
 sleep 30;
 
 rm -rf TableVI_A100.log;
-for filename in result_*;
+for filename in *_result_*;
 do
 	let n=1;
 	while read line; do
@@ -23,20 +23,20 @@ do
 	done < ./$filename
 done
 
-rm -rf result_*;
+rm -rf *_result_*;
 
-./matrixMulCUBLAS H1=1536 W1=1024 W2=81930 Iter=4896 >> result_1536_1024_81930.log;
+./matrixMulCUBLAS H1=1536 W1=1024 W2=81930 Iter=4896 >> 1_result_1536_1024_81930;
 sleep 30;
-./matrixMulCUBLAS H1=1536 W1=3048 W2=25600 Iter=7600 >> result_1536_3048_25600.log;
+./matrixMulCUBLAS H1=1536 W1=3048 W2=25600 Iter=7600 >> 2_result_1536_3048_25600;
 sleep 30;
-./matrixMulCUBLAS H1=768 W1=1280 W2=122880 Iter=5300 >> result_768_1280_122880.log;
+./matrixMulCUBLAS H1=768 W1=1280 W2=122880 Iter=5300 >> 3_result_768_1280_122880;
 sleep 30;
-./matrixMulCUBLAS H1=768 W1=1792 W2=81930  Iter=5500 >> result_768_1792_81930.log;
+./matrixMulCUBLAS H1=768 W1=1792 W2=81930  Iter=5500 >> 4_result_768_1792_81930;
 sleep 30;
-./matrixMulCUBLAS H1=1536 W1=1792 W2=25600 Iter=8700 >> result_1536_1792_25600.log;
+./matrixMulCUBLAS H1=1536 W1=1792 W2=25600 Iter=8700 >> 5_result_1536_1792_25600;
 
 rm -rf TableVII_A100.log;
-for filename in result_*;
+for filename in *_result_*;
 do
 	let n=1;
 	while read line; do
@@ -49,4 +49,4 @@ do
 	done < ./$filename
 done
 
-rm -rf result_*;
+rm -rf *_result_*;
