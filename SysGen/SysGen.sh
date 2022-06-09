@@ -256,14 +256,9 @@ void mm_sw( uint32_t A1[X][Y][A][B][DATA_SIZE1], uint32_t B1[Z][Y][B][C][DATA_SI
 }
 
 int main(int argc, char** argv) {
-    //////////////////////////////////////////
-    // Open xclbin
-    //////////////////////////////////////////
-    if(argc != 2) {
-    std::cout << \"Usage: \" << argv[0] <<\" <xclbin>\" << std::endl;
-    return EXIT_FAILURE;
-    }
     char* xclbinFilename = argv[1];
+    int iter=1;
+    iter=atoi(argv[2]);
     //////////////////////////////////////////
     // Open xclbin
     //////////////////////////////////////////
@@ -278,7 +273,7 @@ int main(int argc, char** argv) {
 
     uint32_t (*DataInput0)[Y][A][B][DATA_SIZE1] = new uint32_t[X][Y][A][B][DATA_SIZE1];
     uint32_t (*DataInput1)[Y][B][C][DATA_SIZE2] = new uint32_t[Z][Y][B][C][DATA_SIZE2];
-    uint32_t (*golden)[X][A][C][OUT_SIZE] = new uint32_t[Z][X][A][C][OUT_SIZE];
+    //uint32_t (*golden)[X][A][C][OUT_SIZE] = new uint32_t[Z][X][A][C][OUT_SIZE];
 
     srand (time(0));
     for (int m = 0; m < X; m++) {
@@ -356,80 +351,73 @@ int main(int argc, char** argv) {
     
 
 
-    //for (int i=0;i<iter;i++){
-        //Open PL kernels handles
-        std::cout << \"Kernel run\n\";
-        xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, \"dma\");
-        xrtRunHandle dma_rhdl;
-        //profile aie mm 
-        double kernel_time_in_sec = 0;
-        std::chrono::duration<double> kernel_time(0);
-        auto kernel_start = std::chrono::high_resolution_clock::now();
-        const int iter=4000;
-        for (int i=0;i<iter;i++){
-        // start input kernels run handles
-        dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,Z/${z},
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr);
+    std::cout << \"Kernel run\n\";
+    xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, \"dma\");
+    xrtRunHandle dma_rhdl;
+    //profile aie mm 
+    double kernel_time_in_sec = 0;
+    std::chrono::duration<double> kernel_time(0);
+    auto kernel_start = std::chrono::high_resolution_clock::now();
+    for (int i=0;i<iter;i++){
+    // start input kernels run handles
+    dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,Z/${z},
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr);
 
+    //////////////////////////////////////////
+    // wait for mm2s done
+    //////////////////////////////////////////
+    //Wait for kernel finish
+    auto state = xrtRunWait(dma_rhdl);
+    xrtRunClose(dma_rhdl);
+    }
 
+    auto kernel_end = std::chrono::high_resolution_clock::now();
+    kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
+    kernel_time_in_sec = kernel_time.count();
+    double TOPS = (double)(H1 * W1 * W2 * A * B * C) * (double)(X * Y * Z * 2 * iter * 1e-9) / kernel_time_in_sec;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << \"Total time is: \"<< kernel_time_in_sec <<\"s, TOPS = \" << TOPS << \" GOPS/s\" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    // sync output memory
+    xrtBOSync(out_bohdl, XCL_BO_SYNC_BO_FROM_DEVICE , sizeOut* sizeof(uint32_t),/*OFFSET=*/ 0);
+    
 
     
-        //////////////////////////////////////////
-        // wait for mm2s done
-        //////////////////////////////////////////
-        //Wait for kernel finish
-        auto state = xrtRunWait(dma_rhdl);
-        }
- 
-        auto kernel_end = std::chrono::high_resolution_clock::now();
-        kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
-        kernel_time_in_sec = kernel_time.count();
-        double TOPS = (double)(H1 * W1 * W2 * A * B * C) * (double)(X * Y * Z * 2 * iter * 1e-9) / kernel_time_in_sec;
-        std::cout << std::endl;
-        std::cout << std::endl;
-        std::cout << \"Total execution time is: \"<< kernel_time_in_sec <<\"s, TOPS = \" << TOPS << \" GOPS/s\" << std::endl;
-        std::cout << std::endl;
-        std::cout << std::endl;
-        // sync output memory
-
-        xrtBOSync(out_bohdl, XCL_BO_SYNC_BO_FROM_DEVICE , sizeOut* sizeof(uint32_t),/*OFFSET=*/ 0);
-        
-    
-        xrtRunClose(dma_rhdl);
-        xrtKernelClose(dma_khdl);
-    //}
+    xrtKernelClose(dma_khdl);
 
     
     //////////////////////////////////////////
     // Comparing the execution data to the golden data
     //////////////////////////////////////////
-    
+    /*
     mm_sw(DataInput0, DataInput1, golden);
-//
+
     int errorCount = 0;
     {   
         for(int z=0;z<Z;z++){
@@ -455,11 +443,11 @@ int main(int argc, char** argv) {
             printf(\"Test failed with %d errors\n\", errorCount);
         else
             printf(\"TEST PASSED\n\");
-    }
+    }*/
 
     delete[] DataInput0;
     delete[] DataInput1;
-    delete[] golden;
+    //delete[] golden;
 
     //////////////////////////////////////////
     // clean up XRT
@@ -1300,14 +1288,9 @@ void mm_sw( float A1[X][Y][A][B][DATA_SIZE1], float B1[Z][Y][B][C][DATA_SIZE2], 
 }
 
 int main(int argc, char** argv) {
-    //////////////////////////////////////////
-    // Open xclbin
-    //////////////////////////////////////////
-    if(argc != 2) {
-    std::cout << "'"Usage: "'" << argv[0] <<"'" <xclbin>"'" << std::endl;
-    return EXIT_FAILURE;
-    }
     char* xclbinFilename = argv[1];
+    int iter=1;
+    iter=atoi(argv[2]);
     //////////////////////////////////////////
     // Open xclbin
     //////////////////////////////////////////
@@ -1326,7 +1309,7 @@ int main(int argc, char** argv) {
 
     float (*DataInput0)[Y][A][B][DATA_SIZE1] = new float[X][Y][A][B][DATA_SIZE1];
     float (*DataInput1)[Y][B][C][DATA_SIZE2] = new float[Z][Y][B][C][DATA_SIZE2];
-    float (*golden)[X][A][C][OUT_SIZE] = new float[Z][X][A][C][OUT_SIZE];
+    //float (*golden)[X][A][C][OUT_SIZE] = new float[Z][X][A][C][OUT_SIZE];
 
     srand (time(0));
     for (int m = 0; m < X; m++) {
@@ -1403,77 +1386,71 @@ int main(int argc, char** argv) {
     
 
 
-    //for (int i=0;i<iter;i++){
-        //Open PL kernels handles
-        std::cout << "'"Kernel run\n"'";
-        xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "'"dma"'");
-        xrtRunHandle dma_rhdl;
-        //profile aie mm 
-        double kernel_time_in_sec = 0;
-        std::chrono::duration<double> kernel_time(0);
-        auto kernel_start = std::chrono::high_resolution_clock::now();
-        const int iter=4000;
-        for (int i=0;i<iter;i++){
-        // start input kernels run handles
-        dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,Z/${z},
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, 
-                            nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr,
-                            nullptr, nullptr, nullptr, nullptr);
+    std::cout << "'"Kernel run\n"'";
+    xrtKernelHandle dma_khdl = xrtPLKernelOpen(dhdl, top->m_header.uuid, "'"dma"'");
+    xrtRunHandle dma_rhdl;
+    //profile aie mm 
+    double kernel_time_in_sec = 0;
+    std::chrono::duration<double> kernel_time(0);
+    auto kernel_start = std::chrono::high_resolution_clock::now();
+    for (int i=0;i<iter;i++){
+    // start input kernels run handles
+    dma_rhdl = xrtKernelRun(dma_khdl, in_bohdl0, in_bohdl1,out_bohdl,Z/${z},
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, 
+                        nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr,
+                        nullptr, nullptr, nullptr, nullptr);
 
+    //////////////////////////////////////////
+    // wait for mm2s done
+    //////////////////////////////////////////
+    //Wait for kernel finish
+    auto state = xrtRunWait(dma_rhdl);
+    xrtRunClose(dma_rhdl);
+    }
 
+    auto kernel_end = std::chrono::high_resolution_clock::now();
+    kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
+    kernel_time_in_sec = kernel_time.count();
+    double TOPS = (double)(H1 * W1 * W2 * A * B * C) * (double)(X * Y * Z * 2 * iter * 1e-9) / kernel_time_in_sec;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "'"Total time is: "'"<< kernel_time_in_sec <<"'"s, TOPS = "'" << TOPS << "'" GOPS/s"'" << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    // sync output memory
+    xrtBOSync(out_bohdl, XCL_BO_SYNC_BO_FROM_DEVICE , sizeOut* sizeof(float),/*OFFSET=*/ 0);
+    
 
     
-        //////////////////////////////////////////
-        // wait for mm2s done
-        //////////////////////////////////////////
-        //Wait for kernel finish
-        auto state = xrtRunWait(dma_rhdl);
-        }
- 
-        auto kernel_end = std::chrono::high_resolution_clock::now();
-        kernel_time = std::chrono::duration<double>(kernel_end - kernel_start);
-        kernel_time_in_sec = kernel_time.count();
-        double TOPS = (double)(H1 * W1 * W2 * A * B * C) * (double)(X * Y * Z * 2 * iter * 1e-9) / kernel_time_in_sec;
-        std::cout << std::endl;
-        std::cout << std::endl;
-        std::cout << "'"Total execution time is: "'"<< kernel_time_in_sec <<"'"s, TOPS = "'" << TOPS << "'" GOPS/s"'" << std::endl;
-        std::cout << std::endl;
-        std::cout << std::endl;
-        // sync output memory
-
-        xrtBOSync(out_bohdl, XCL_BO_SYNC_BO_FROM_DEVICE , sizeOut* sizeof(float),/*OFFSET=*/ 0);
-        
-    
-        xrtRunClose(dma_rhdl);
-        xrtKernelClose(dma_khdl);
-    //}
+    xrtKernelClose(dma_khdl);
 
     
     ////////////////////////////////////////////
     //// Comparing the execution data to the golden data
     ////////////////////////////////////////////
+    /*
     mm_sw(DataInput0, DataInput1, golden);
 
     int errorCount = 0;
@@ -1501,11 +1478,11 @@ int main(int argc, char** argv) {
             printf("'"Test failed with %d errors\n"'", errorCount);
         else
             printf("'"TEST PASSED\n"'");
-    }
+    }*/
 
     delete[] DataInput0;
     delete[] DataInput1;
-    delete[] golden;
+    //delete[] golden;
 
     //////////////////////////////////////////
     // clean up XRT
