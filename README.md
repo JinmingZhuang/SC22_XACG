@@ -148,12 +148,12 @@ cd SysGen/${PRO_PATH}
 ```
 
 4. On board execution ( **3-5 min** )<br><br>
-By running the following instructions, user can view throughput and computation result in result.log.
+By running the following instructions, user can view throughput and computation result in result.log. Here ${iter} is the number of iteration that the kernel will be launched.
 ```sh
 source /opt/tools/xilinx/Vitis/2021.2/settings64.sh
 source /opt/xilinx/xrt/setup.sh
 cd SysGen/${PRO_PATH}
-./hostexe mm_hw.xclbin 100 >> result.log
+./hostexe mm_hw.xclbin ${iter} >> result.log
 ```
 
 **5. Expected demo result**<br>
