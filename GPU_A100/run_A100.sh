@@ -1,6 +1,6 @@
 ./matrixMulCUBLAS H1=1024 W1=1024 W2=1024 Iter=550000 >> 1_result_1K;
 sleep 30;
-./matrixMulCUBLAS H1=3048 W1=3048 W2=3048 Iter=70000 >> 2_result_2K;
+./matrixMulCUBLAS H1=2048 W1=2048 W2=2048 Iter=70000 >> 2_result_2K;
 sleep 30;
 ./matrixMulCUBLAS H1=4096 W1=4096 W2=4096 Iter=9500 >> 3_result_4K;
 sleep 30;
@@ -27,7 +27,7 @@ rm -rf *_result_*;
 
 ./matrixMulCUBLAS H1=1536 W1=1024 W2=81930 Iter=4896 >> 1_result_1536_1024_81930;
 sleep 30;
-./matrixMulCUBLAS H1=1536 W1=3048 W2=25600 Iter=7600 >> 2_result_1536_3048_25600;
+./matrixMulCUBLAS H1=1536 W1=2048 W2=25600 Iter=7600 >> 2_result_1536_2048_25600;
 sleep 30;
 ./matrixMulCUBLAS H1=768 W1=1280 W2=122880 Iter=5300 >> 3_result_768_1280_122880;
 sleep 30;
