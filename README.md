@@ -102,18 +102,18 @@ Start from here, the instructions described below acheives the same results of t
 ```sh
 Platform:VCK5000;
 KernelGen:1;
-	DATA_TYPE:int32;
+	DATA_TYPE:fp32;
 	KRL_TYPE:1;
 	I:32;
 	K:32;
 	J:32;
 IOGen:1;
-	DATA_TYPE:int32;
+	DATA_TYPE:fp32;
 	A:12;
 	B:8;
 	C:4;
 SysGen:1;
-	DATA_TYPE:int32;
+	DATA_TYPE:fp32;
 	X:4;
 	Y:8;
 	Z:1;
@@ -124,7 +124,7 @@ AutoCompile:0;
 ```
 
 **3. Code generation by XACG**<br>
-XACG takes ".cfg" as input file. In order to reproduce the experiment results, we prepared all the ".cfg" file of listed int32 experiments on VCK5000 in ./config_files with the name specify their MM size. If not specify input file. Then XACG will take input.cfg as default settting.<br>
+XACG takes ".cfg" as input file. In order to reproduce the experiment results, we prepared all the ".cfg" file of listed fp32 experiments on VCK5000 in ./config_files with the name specify their MM size. If not specify input file. Then XACG will take input.cfg as default settting.<br>
 ```sh
 ./AutoGen.sh config_files/1536_2048_25600.cfg
 ```
@@ -148,12 +148,12 @@ cd SysGen/${PRO_PATH}
 ```
 
 4. On board execution ( **3-5 min** )<br><br>
-By running the following instructions, user can view throughput and computation result in result.log.
+By running the following instructions, user can view throughput and computation result in result.log. Here ${iter} is the number of iteration that the kernel will be launched.
 ```sh
 source /opt/tools/xilinx/Vitis/2021.2/settings64.sh
 source /opt/xilinx/xrt/setup.sh
 cd SysGen/${PRO_PATH}
-./hostexe mm_hw.xclbin >> result.log
+./hostexe mm_hw.xclbin ${iter} >> result.log
 ```
 
 **5. Expected demo result**<br>
@@ -202,6 +202,7 @@ cd SysGen/script_VCK190
 ./hw_parse.sh 
 ./time_parse.sh
 ```
+<!--
 **3. Single Kernel Effciency**<br>
 In this section, users can launch the KernelGen independently by assigning Sys_Gen and IO_Gen to 0. In the rest of this section, we will use int32 MM kernel 0 with size 32*32*32 as an example to showcase how to verify the efficiency of a single kernel. <br>
 
@@ -251,3 +252,4 @@ vitis_analyzer aiesimulator_output/default.aierun_summary
 After open the GUI of vitis_analyzer, we mark the start time and stop time of mm_kernel0 as shown in the following picture. The total elapsed cycle can be calculated as 5483-1154=4329 cycles. For int32 data type, it can calucalte 8 MACs/cyc. The theoretical execution cycle should be 32*32*32/8=4096 cycles. Thus the efficiency can be calculated as EFF = 4096/4329 ≈ 94.6%. Note that, there are small number of cycles variation during different launch of a single kernel thus lead to small changes in efficiency.<br>
 
 ![image](https://user-images.githubusercontent.com/77606152/163173178-0ac63bb5-fc3e-43b5-9ec1-90f2fda5c764.png)<br>
+-->
