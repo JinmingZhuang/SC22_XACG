@@ -151,8 +151,8 @@ echo \
 ">> ./${dir_name}/aie/para.h
 
 let k=${row_num}*${col_num};
-let R_BRO=4;
-let C_BRO=3;
+let R_BRO=${col_num};
+let C_BRO=2;
 let boundry0=${col_num}/${R_BRO};
 let boundry1=${row_num}/${C_BRO};
 echo \
